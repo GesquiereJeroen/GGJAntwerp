@@ -12,15 +12,15 @@ public class FloatingBubble : MonoBehaviour
     [SerializeField] Vector2 floatSpeedRangeScale;
     
 	private float _deltaX;
+	private float _maxX;
     void Start()
     {
         startPosition = transform.position;
         randomSeed = Random.value;
-        Debug.Log(randomSeed);
         speed = Random.Range(floatSpeedRangeScale.x, floatSpeedRangeScale.y);
         floatHeight = Random.Range(floatHeightRangeScale.x, floatHeightRangeScale.y);
-        
-        Invoke("SpawnParticle",3f);
+
+		_maxX = Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x + 1;
     }
 
     void Update()
@@ -33,9 +33,19 @@ public class FloatingBubble : MonoBehaviour
         float moveY = startPosition.y + Mathf.Lerp(-floatHeight, floatHeight, randomFactor);
 
         transform.position = new Vector3(moveX, moveY, transform.position.z);
+
+		if(moveX > _maxX)
+		{
+			Destroy(gameObject);
+		}
     }
 
-    void SpawnParticle()
+	private void OnDestroy()
+	{
+		SpawnParticle();
+	}
+
+	void SpawnParticle()
     {
         if (particlePrefab != null)
         {
@@ -50,7 +60,5 @@ public class FloatingBubble : MonoBehaviour
         {
             Debug.LogWarning("Particle prefab not assigned!");
         }
-
-        Destroy(gameObject);
     }
 }
