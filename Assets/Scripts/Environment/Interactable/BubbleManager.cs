@@ -42,6 +42,8 @@ public class BubbleManager : MonoBehaviour
 
 	private float _timer;
 	private float _currentInterval;
+
+	private bool _gameEnded;
 	#endregion
 
 	#region Properties
@@ -58,8 +60,18 @@ public class BubbleManager : MonoBehaviour
 	{
 		_currentInterval = Random.Range(_spawnInterval.x, _spawnInterval.y);
 	}
+	private void OnEnable()
+	{
+		GameManager.Instance.GameEnded += SetGameEnded;
+	}
+
+	private void OnDisable()
+	{
+		GameManager.Instance.GameEnded -= SetGameEnded;
+	}
 	private void FixedUpdate()
 	{
+		if (_gameEnded) return;
 		_timer += Time.deltaTime;
 		if(_timer >= _currentInterval)
 		{
@@ -117,6 +129,8 @@ public class BubbleManager : MonoBehaviour
 	#region Methods
 	private void SpawnBubble()
 	{
+		if(_neededCaharacters.Count <= 0) return;
+
 		var bubble = Instantiate(_bubblePrefab);
 
 		char randomCharacterNeeded = _neededCaharacters[Random.Range(0, _neededCaharacters.Count)];
@@ -137,16 +151,6 @@ public class BubbleManager : MonoBehaviour
 		bubble.transform.position = transform.position + (Vector3)Random.insideUnitCircle;
 
 		_bubbles.Add(bubble);
-	}
-
-	public void GenerateBubbles(string guessSentence)
-	{
-		foreach (char c in guessSentence)
-		{
-			if (c == ' ') continue;
-
-			
-		}
 	}
 
 	private KeyCode GetKeyCode(char character)
@@ -175,6 +179,11 @@ public class BubbleManager : MonoBehaviour
 		{
 			Destroy(_bubbles[i].gameObject);
 		}
+	}
+
+	private void SetGameEnded(object sender, bool e)
+	{
+		_gameEnded = true;
 	}
 
 	#endregion
