@@ -74,7 +74,7 @@ public class MenuSentenceManager : MonoBehaviour
         greyedText.GetComponent<VertexWobble>().RemoveCharacter(typedCharacter);
         CheckSentenceComplete();
     }
-
+    [SerializeField] GameObject transsitionAnimaiton;
     private void CheckSentenceComplete()
     {
         foreach (char needed in _neededCharacters)
@@ -85,10 +85,16 @@ public class MenuSentenceManager : MonoBehaviour
                 return;
             }
         }
+        Invoke("TransitionAnimation", 1);
+        Invoke("ChangeScene", 3);
 
-        Invoke("ChangeScene",3);
     }
 
+    void TransitionAnimation()
+    {
+        
+        transsitionAnimaiton.SetActive(true);
+    }
 
     public void ChangeScene()
     {
