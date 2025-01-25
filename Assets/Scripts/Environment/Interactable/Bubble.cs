@@ -48,6 +48,7 @@ public class Bubble : MonoBehaviour
 	#region Methods
 	public void Pop()
 	{
+		if(gameObject == null) return;
 		Destroy(gameObject);
 	}
 
