@@ -14,8 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _beginning:
   - When cleaning the bathroom
-  _middle:
   - my intrusive thoughts took over
+  _middle:
+  - I gave in to curiosity
+  - I gave it a little lick
   _ending:
-  - now I tast regret
+  - now I taste regret
+  - now i burp bubbles
+  - my breath smells like lavender
   _conclusion: []

@@ -15,7 +15,10 @@ public class SentenceManager : MonoBehaviour
 	#region Fields
 	private string _guessSentence = "";
 
+	private List<char> _neededCharacters = new List<char>();
 	private List<char> _guessedCharacters = new List<char>();
+
+	private int _currentSentencePart = 1;
 	#endregion
 
 	#region Properties
@@ -31,19 +34,22 @@ public class SentenceManager : MonoBehaviour
 		_bubbleManager.PressSuccess += OnKeySuccess;
 		_bubbleManager.PressFailed += OnKeyFailed;
 
-		GetSentenceBeginning();
-		_bubbleManager.GenerateBubbles(GuessSentence);
+		GetCurrentSentencePart();
 	}
 	private void OnDisable()
 	{
 		_bubbleManager.PressSuccess -= OnKeySuccess;
 		_bubbleManager.PressFailed -= OnKeyFailed;
-	}
 
+		_guessedCharacters.Clear();
+	}
+	#endregion
+
+	#region Methods
 	private void OnKeyFailed(object sender, EventArgs e)
 	{
-		GetSentenceBeginning();
 		_guessedCharacters.Clear();
+		GetCurrentSentencePart();
 
 		_bubbleManager.ClearBubbles(this, EventArgs.Empty);
 		_bubbleManager.GenerateBubbles(GuessSentence);
@@ -52,37 +58,91 @@ public class SentenceManager : MonoBehaviour
 	private void OnKeySuccess(object sender, string e)
 	{
 		// add the character to the guessed characters
+		// assume the string provided is just the character
 		_guessedCharacters.Add(e.ToCharArray()[0]);
 
 		UpdateText();
-	}
-	#endregion
 
-	#region Methods
+		CheckSentenceComplete();
+	}
+
+	private void CheckSentenceComplete()
+	{
+
+		foreach(char needed in _neededCharacters)
+		{
+			// if character is not guessed then return and stop doing checks
+			if (!_guessedCharacters.Contains(needed))
+			{
+				return;
+			}
+		}
+
+		_currentSentencePart %= 3;
+		// sentence is complete so proceed to the next sentence
+		++_currentSentencePart;
+
+		GetCurrentSentencePart();
+	}
+
+	private void GetCurrentSentencePart()
+	{
+		switch (_currentSentencePart)
+		{
+			case 1:
+				GetSentenceBeginning();
+				break;
+			case 2:
+				GetSentenceMiddle();
+				break;
+			case 3: 
+				GetSentenceEnding();
+				break;
+		}
+
+		_guessedCharacters.Clear();
+		_neededCharacters.Clear();
+		UpdateText();
+		GetNeededCharacters();
+		_bubbleManager.GenerateBubbles(GuessSentence);
+	}
+
+	private void GetNeededCharacters()
+	{
+		foreach (var c in GuessSentence)
+		{
+			if (IsCharacterAllowed(c)) continue;
+
+			if (!_neededCharacters.Contains(c))
+			{
+				_neededCharacters.Add(c);
+			}
+		}
+	}
+
 	public string GetSentenceBeginning()
 	{
 		_guessSentence = _sentenceData.GetRandomBeginning();
 
-		SetTextEmpty(_guessSentence);
 		return _guessSentence;
 	}
-
-	private void SetTextEmpty(string input)
+	public string GetSentenceMiddle()
 	{
-		string empty = "";
+		_guessSentence = _sentenceData.GetRandomMiddle();
 
-		foreach (char c in input)
-		{
-			if(c == ' ' ||  c == '\n' || c == '.')
-			{
-				empty += c;
-				continue;
-			}
+		return _guessSentence;
+	}
+	public string GetSentenceEnding()
+	{
+		_guessSentence = _sentenceData.GetRandomEnding();
 
-			empty += '_';
-		}
+		return _guessSentence;
+	}
+	public string GetSentenceConclusion()
+	{
+		_guessSentence = _sentenceData.GetRandomConclusion();
 
-		_textDisplay.text = empty;
+		return _guessSentence;
 	}
 	private void UpdateText()
 	{
@@ -90,7 +150,7 @@ public class SentenceManager : MonoBehaviour
 
 		foreach (char c in _guessSentence.ToLower())
 		{
-			if (c == ' ' || c == '\n' || c == '.' || _guessedCharacters.Contains(c))
+			if (IsCharacterAllowed(c) || _guessedCharacters.Contains(c))
 			{
 				updated += c;
 				continue;
@@ -100,6 +160,11 @@ public class SentenceManager : MonoBehaviour
 		}
 
 		_textDisplay.text = updated;
+	}
+
+	private static bool IsCharacterAllowed(char c)
+	{
+		return c == ' ' || c == '\n' || c == '.' || c == ',';
 	}
 	#endregion
 
