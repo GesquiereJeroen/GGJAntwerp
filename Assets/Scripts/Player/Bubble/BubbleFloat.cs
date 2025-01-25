@@ -10,6 +10,8 @@ public class FloatingBubble : MonoBehaviour
     private Vector3 startPosition;
     [SerializeField] Vector2 floatHeightRangeScale;
     [SerializeField] Vector2 floatSpeedRangeScale;
+
+	private float _deltaX;
     void Start()
     {
         startPosition = transform.position;
@@ -21,8 +23,8 @@ public class FloatingBubble : MonoBehaviour
 
     void Update()
     {
-
-        float moveX = startPosition.x + speed * Time.time;
+		_deltaX += speed * Time.deltaTime;
+        float moveX = startPosition.x + _deltaX;
 
 
         float randomFactor = Mathf.PerlinNoise((Time.time + randomSeed) * floatSpeed, 0f);

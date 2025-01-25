@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4267458220058590000}
   - component: {fileID: 7241330525568017507}
+  - component: {fileID: 805519807191937884}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _letterDisplay: {fileID: 191372682493201260}
+--- !u!114 &805519807191937884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857616375125089783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fcf54a59bb253849bd52c6377ee3fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatHeightRangeScale: {x: -0.5, y: 0.5}
+  floatSpeedRangeScale: {x: 0.5, y: 1.5}
 --- !u!1 &6993331652801938487
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +73,7 @@ GameObject:
   - component: {fileID: 4868691758158170244}
   - component: {fileID: 5086062410939127497}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,8 +135,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0, g: 0.8585174, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: af5fdd39c15c3364b995448dc339ac35, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

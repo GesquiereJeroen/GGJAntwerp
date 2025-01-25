@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -15,10 +13,10 @@ public class Bubble : MonoBehaviour
 	#endregion
 
 	#region Properties
-	public KeyCode KeyToPress 
+	public KeyCode KeyToPress
 	{
 		get => _key;
-		set 
+		set
 		{
 			_key = value;
 			UpdateText();
@@ -36,7 +34,7 @@ public class Bubble : MonoBehaviour
 	#region Mono
 	private void Awake()
 	{
-		
+
 	}
 	private void OnDestroy()
 	{
@@ -48,12 +46,17 @@ public class Bubble : MonoBehaviour
 	#region Methods
 	public void Pop()
 	{
-		if(gameObject == null) return;
+		if (gameObject == null) return;
 		Destroy(gameObject);
 	}
 
 	private void UpdateText()
 	{
+		if (_key == KeyCode.None)
+		{
+			_letterDisplay.text = "";
+			return;
+		}
 		_letterDisplay.text = _key.ToString().ToUpper();
 	}
 	#endregion
