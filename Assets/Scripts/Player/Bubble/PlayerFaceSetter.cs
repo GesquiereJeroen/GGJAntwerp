@@ -11,14 +11,14 @@ public class PlayerFaceSetter : MonoBehaviour
 
 	private void Awake()
 	{
-		GameManager.Instance.GameStarted += SetFace;
+		SetFace();
 	}
 
-	void SetFace(object sender, EventArgs e)
+	void SetFace()
 	{
 		int randIndex = Random.Range(0, _faces.Count);
 
-		for (int i = 0; i < _faces.Count - 1; i++)
+		for (int i = 0; i < _faces.Count; i++)
 		{
 			if(randIndex == i)
 			{

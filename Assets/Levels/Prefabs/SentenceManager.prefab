@@ -334,7 +334,7 @@ MonoBehaviour:
   _textDisplay: {fileID: 1344260772218362398}
   _bubbleManager: {fileID: 0}
   _timeBeforeReshuffle: 2
-  _typeTimeBetweenCharacters: 0.05
+  _typeTimeBetweenCharacters: 0.02
   _speechBubblePivot: {fileID: 7405634542725045693}
   _speechBubbleGrowTime: 1
   _speechBubbleImage: {fileID: 3710310031154538110}
