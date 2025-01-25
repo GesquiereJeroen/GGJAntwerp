@@ -322,7 +322,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bubblePrefab: {fileID: 7241330525568017507, guid: 4d24a1f64b07f5841a58ed32881e8afa, type: 3}
-  _sentenceManager: {fileID: 1631738447}
 --- !u!4 &1041619399
 Transform:
   m_ObjectHideFlags: 0
@@ -470,8 +469,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.19
-  m_fontSizeBase: 49.19
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -480,7 +479,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 3
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

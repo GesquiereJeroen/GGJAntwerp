@@ -65,16 +65,17 @@ public class BubbleManager : MonoBehaviour
 		}
 
 		// go over all the bubbles to see if the any of the correct keys have been pressed
-		foreach (var bubble in _bubbles)
+		for (int i = _bubbles.Count -1; i >= 0; i--)
 		{
+			var currentBubble = _bubbles[i];
 			// check if any of the keys pressed correspond with any of the bubbles currently on screen
-			if (Input.GetKeyDown(bubble.KeyToPress))
+			if (Input.GetKeyDown(currentBubble.KeyToPress))
 			{
-				bubble.Pop();
+				currentBubble.Pop();
 				if (!_correctKeyPressed)
 				{
 					// only execute this once
-					OnPressSuccess(bubble.KeyToPress);
+					OnPressSuccess(currentBubble.KeyToPress);
 					_correctKeyPressed = true;
 				}
 			}

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,19 +29,19 @@ public class SentenceData : ScriptableObject
 	{
 		int randIndex = Random.Range(0, Middle.Count);
 
-		return Beginning[randIndex];
+		return Middle[randIndex];
 	}
 	public string GetRandomEnding()
 	{
 		int randIndex = Random.Range(0, Ending.Count);
 
-		return Beginning[randIndex];
+		return Ending[randIndex];
 	}
 	public string GetRandomConclusion()
 	{
 		int randIndex = Random.Range(0, Conclusion.Count);
 
-		return Beginning[randIndex];
+		return Conclusion[randIndex];
 	}
 	#endregion
 }
