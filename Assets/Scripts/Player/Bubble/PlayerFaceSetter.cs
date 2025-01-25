@@ -8,16 +8,7 @@ public class PlayerFaceSetter : MonoBehaviour
     [SerializeField]List<Sprite> playerFaces;
     // Start is called before the first frame update
     [SerializeField] SpriteRenderer spriteRenderer;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+ 
 
     void SetFace()
     {
