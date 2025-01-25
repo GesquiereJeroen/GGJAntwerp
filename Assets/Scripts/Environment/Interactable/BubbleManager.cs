@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +8,13 @@ public class BubbleManager : MonoBehaviour
 {
 	#region Editor Fields
 	[SerializeField] private Bubble _bubblePrefab;
+	[SerializeField] private Vector2 _spawnInterval = new Vector2(0.2f, 1f);
+	[SerializeField] private float _emptyChance;
 	#endregion
 
 	#region Fields
 	private List<Bubble> _bubbles = new List<Bubble>();
+	private List<char> _neededCaharacters = new List<char>();
 	private readonly Dictionary<char, KeyCode> _keycodeCache = new Dictionary<char, KeyCode>();
 
 	private bool _correctKeyPressed;
@@ -35,10 +39,13 @@ public class BubbleManager : MonoBehaviour
 		KeyCode.Tab,
 
 	};
+
+	private float _timer;
+	private float _currentInterval;
 	#endregion
 
 	#region Properties
-
+	public List<char> NeededCharacters => _neededCaharacters;
 	#endregion
 
 	#region Events
@@ -47,6 +54,20 @@ public class BubbleManager : MonoBehaviour
 	#endregion
 
 	#region Mono
+	private void Awake()
+	{
+		_currentInterval = Random.Range(_spawnInterval.x, _spawnInterval.y);
+	}
+	private void FixedUpdate()
+	{
+		_timer += Time.deltaTime;
+		if(_timer >= _currentInterval)
+		{
+			SpawnBubble();
+			_currentInterval = Random.Range(_spawnInterval.x, _spawnInterval.y);
+			_timer = 0;
+		}
+	}
 	private void Update()
 	{
 		_correctKeyPressed = false;
@@ -94,21 +115,37 @@ public class BubbleManager : MonoBehaviour
 	#endregion
 
 	#region Methods
+	private void SpawnBubble()
+	{
+		var bubble = Instantiate(_bubblePrefab);
+
+		char randomCharacterNeeded = _neededCaharacters[Random.Range(0, _neededCaharacters.Count)];
+
+		if(Random.Range(0f, 1f) > _emptyChance)
+		{
+			bubble.KeyToPress = GetKeyCode(randomCharacterNeeded);
+		}
+		else
+		{
+			bubble.KeyToPress = KeyCode.None;
+		}
+
+		bubble.BubbleManager = this;
+
+		bubble.Destroyed += OnBubbleDestroyed;
+
+		bubble.transform.position = transform.position + (Vector3)Random.insideUnitCircle;
+
+		_bubbles.Add(bubble);
+	}
+
 	public void GenerateBubbles(string guessSentence)
 	{
 		foreach (char c in guessSentence)
 		{
 			if (c == ' ') continue;
 
-			var bubble = Instantiate(_bubblePrefab);
-			bubble.KeyToPress = GetKeyCode(c);
-			bubble.BubbleManager = this;
-
-			bubble.Destroyed += OnBubbleDestroyed;
-
-			bubble.transform.position = Random.insideUnitCircle * 5;
-
-			_bubbles.Add(bubble);
+			
 		}
 	}
 

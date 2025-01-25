@@ -53,13 +53,19 @@ public class SentenceManager : MonoBehaviour
 
 		_bubbleManager.ClearBubbles(this, EventArgs.Empty);
 		_bubbleManager.GenerateBubbles(GuessSentence);
+
+		GameManager.Instance.LoseLife();
 	}
 
 	private void OnKeySuccess(object sender, string e)
 	{
+		char typedCharacter = e.ToCharArray()[0];
+
 		// add the character to the guessed characters
 		// assume the string provided is just the character
-		_guessedCharacters.Add(e.ToCharArray()[0]);
+		_guessedCharacters.Add(typedCharacter);
+
+		_bubbleManager.NeededCharacters.Remove(typedCharacter);
 
 		UpdateText();
 
@@ -68,7 +74,6 @@ public class SentenceManager : MonoBehaviour
 
 	private void CheckSentenceComplete()
 	{
-
 		foreach(char needed in _neededCharacters)
 		{
 			// if character is not guessed then return and stop doing checks
@@ -78,9 +83,14 @@ public class SentenceManager : MonoBehaviour
 			}
 		}
 
-		_currentSentencePart %= 3;
 		// sentence is complete so proceed to the next sentence
 		++_currentSentencePart;
+
+		// 3 sentences have been solved
+		if(_currentSentencePart > 3)
+		{
+			GameManager.Instance.WinGame();
+		}
 
 		GetCurrentSentencePart();
 	}
@@ -104,7 +114,6 @@ public class SentenceManager : MonoBehaviour
 		_neededCharacters.Clear();
 		UpdateText();
 		GetNeededCharacters();
-		_bubbleManager.GenerateBubbles(GuessSentence);
 	}
 
 	private void GetNeededCharacters()
@@ -116,6 +125,7 @@ public class SentenceManager : MonoBehaviour
 			if (!_neededCharacters.Contains(c))
 			{
 				_neededCharacters.Add(c);
+				_bubbleManager.NeededCharacters.Add(c);
 			}
 		}
 	}
