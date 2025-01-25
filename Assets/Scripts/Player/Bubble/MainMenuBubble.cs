@@ -37,7 +37,7 @@ public class MainMenuBubble : MonoBehaviour
 
     private void StartScaling()
     {
-        float randomScale = 1 + Random.Range(-scaleRange, scaleRange);
+        float randomScale = 0.5f + Random.Range(-scaleRange, scaleRange);
 
         // Smoothly change scale and loop
         transform.DOScale(randomScale, scaleDuration)
