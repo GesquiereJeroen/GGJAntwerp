@@ -32,10 +32,6 @@ public class Bubble : MonoBehaviour
 	#endregion
 
 	#region Mono
-	private void Awake()
-	{
-
-	}
 	private void OnDestroy()
 	{
 		var handler = Destroyed;

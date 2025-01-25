@@ -27,8 +27,8 @@ public class PlayerHeadShake : MonoBehaviour
 			StopJitteryShake();
 
 			// Set up a continuous jitter effect
-			jitterTween = transform.DOShakePosition(duration, shakeRadius *2, vibrato: 30, randomness: 100, fadeOut: false)
-				.SetLoops(-1, LoopType.Restart); // Infinite loop
+			jitterTween = transform.DOShakeRotation(duration, shakeRadius, vibrato: 20, randomness: 100, fadeOut: false)
+			.SetLoops(-1, LoopType.Restart); // Infinite loop
 		}
 	}
 
@@ -38,7 +38,7 @@ public class PlayerHeadShake : MonoBehaviour
         StopJitteryShake();
 
         // Set up a continuous jitter effect
-        jitterTween = transform.DOShakePosition(duration, shakeRadius, vibrato: 20, randomness: 100, fadeOut: false)
+        jitterTween = transform.DOShakeRotation(duration, shakeRadius, vibrato: 20, randomness: 100, fadeOut: false)
             .SetLoops(-1, LoopType.Restart); // Infinite loop
     }
 
