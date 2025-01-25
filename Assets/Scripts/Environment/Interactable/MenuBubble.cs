@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MenuBubble : MonoBehaviour
@@ -11,6 +12,9 @@ public class MenuBubble : MonoBehaviour
     [SerializeField] private BubbleScriptForMenu _bubblePrefab;
     [SerializeField] private Vector2 _spawnInterval = new Vector2(0.2f, 1f);
     [SerializeField] private float _emptyChance;
+
+  
+
     #endregion
 
     #region Fields

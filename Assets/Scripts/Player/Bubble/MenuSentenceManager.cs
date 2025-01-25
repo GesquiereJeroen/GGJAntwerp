@@ -59,7 +59,7 @@ public class MenuSentenceManager : MonoBehaviour
 
         //GameManager.Instance.LoseLife();
     }
-
+    [SerializeField] TextMeshProUGUI greyedText;
     private void OnKeySuccess(object sender, string e)
     {
         char typedCharacter = e.ToCharArray()[0];
@@ -71,7 +71,7 @@ public class MenuSentenceManager : MonoBehaviour
         _bubbleManager.NeededCharacters.Remove(typedCharacter);
 
         UpdateText();
-
+        greyedText.GetComponent<VertexWobble>().RemoveCharacter(typedCharacter);
         CheckSentenceComplete();
     }
 
