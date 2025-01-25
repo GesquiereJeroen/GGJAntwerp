@@ -28,6 +28,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private List<string> _loseMessages;
 
 	[SerializeField] private TextMeshProUGUI _returnInstruction;
+
+	[Header("Narrator")]
+	[SerializeField] private AudioSource _narratorAudioSource;
+	[SerializeField] private AudioClip _narratorBegin;
+	[SerializeField] private AudioClip _narratorWin;
+	[SerializeField] private AudioClip _narratorLose;
 	#endregion
 
 	#region Fields
@@ -43,6 +49,7 @@ public class GameManager : MonoBehaviour
 	public string MiddleText { get; set; }
 	public string EndingText { get; set; }
 
+	public int CurrentHealth => _currentHealth;
 	#endregion
 
 	#region Events
@@ -69,14 +76,17 @@ public class GameManager : MonoBehaviour
 			healthPoint.SetActive(true);
 		}
 
-		GameEnded += SlideRibbon;
+		GameEnded += SetEndText;
 	}
 
 
 	private void Start()
 	{
-		OnGameStarted();
+		PlayClip(_narratorBegin);
+		DOVirtual.DelayedCall(_narratorBegin.length, OnGameStarted);
 	}
+
+
 	private void Update()
 	{
 		if (!_canReturnToMenu) return;
@@ -91,7 +101,7 @@ public class GameManager : MonoBehaviour
 
 	#region Methods
 
-	private void SlideRibbon(object sender, bool hasWon)
+	private void SetEndText(object sender, bool hasWon)
 	{
 		if (hasWon)
 		{
@@ -103,17 +113,24 @@ public class GameManager : MonoBehaviour
 			var index = UnityEngine.Random.Range(0, _loseMessages.Count);
 			_ribbonText.text = _loseMessages[index];
 
-			_ribbonTransform.DOLocalMoveX(0, _ribbonMoveTime)
-				.SetEase(Ease.OutBack)
-				.OnComplete(() =>
-				{
-					_returnInstruction.gameObject.SetActive(true);
-
-					TypeText(_returnInstruction);
-					_canReturnToMenu = true;
-				});
+			PlayClip(_narratorLose);
+			SlideRibbon();
 		}
 	}
+
+	private void SlideRibbon()
+	{
+		_ribbonTransform.DOLocalMoveX(0, _ribbonMoveTime)
+			.SetEase(Ease.OutBack)
+			.OnComplete(() =>
+			{
+				_returnInstruction.gameObject.SetActive(true);
+
+				TypeText(_returnInstruction);
+				_canReturnToMenu = true;
+			});
+	}
+
 	public void LoseLife()
 	{
 		--_currentHealth;
@@ -134,6 +151,7 @@ public class GameManager : MonoBehaviour
 	private void LoseGame()
 	{
 		OnGameEnded(false);
+		
 	}
 
 	public void WinGame()
@@ -146,15 +164,8 @@ public class GameManager : MonoBehaviour
 		_winSpeechbubble.DOScale(1, _scaleTime)
 			.OnComplete(() => TypeText(_winSpeechBubbleText, () => 
 			{
-				_ribbonTransform.DOLocalMoveX(0, _ribbonMoveTime)
-					.SetEase(Ease.OutBack)
-					.OnComplete(() => 
-					{
-						_returnInstruction.gameObject.SetActive(true);
-
-						TypeText(_returnInstruction); 
-						_canReturnToMenu = true; 
-					});
+				PlayClip(_narratorWin);
+				SlideRibbon();
 			}));
 	}
 	private void TypeText(TextMeshProUGUI text, Action onComplete = null)
@@ -172,6 +183,12 @@ public class GameManager : MonoBehaviour
 	{
 		// set the max visible characters to current tween value
 		text.maxVisibleCharacters = value;
+	}
+
+	private void PlayClip(AudioClip clip)
+	{
+		_narratorAudioSource.clip = clip;
+		_narratorAudioSource.Play();
 	}
 	#endregion
 

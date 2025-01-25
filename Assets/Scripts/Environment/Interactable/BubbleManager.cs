@@ -10,6 +10,12 @@ public class BubbleManager : MonoBehaviour
 	[SerializeField] private Bubble _bubblePrefab;
 	[SerializeField] private Vector2 _spawnInterval = new Vector2(0.2f, 1f);
 	[SerializeField] private float _emptyChance;
+
+	[Header("Audio")]
+	[SerializeField] private AudioSource _audioSource;
+	[SerializeField] private AudioClip[] _bubblePops;
+	[SerializeField] private Vector2 _volumeRange;
+	[SerializeField] private Vector2 _pitchRange;
 	#endregion
 
 	#region Fields
@@ -48,8 +54,8 @@ public class BubbleManager : MonoBehaviour
 
 	#region Properties
 	public List<char> NeededCharacters => _neededCaharacters;
-	public bool CanSpawn;
-	public bool DetectInput = true;
+	public bool CanSpawn { get; set; }
+	public bool DetectInput { get; set; } = true;
 	#endregion
 
 	#region Events
@@ -115,6 +121,7 @@ public class BubbleManager : MonoBehaviour
 					// only execute this once
 					OnPressSuccess(currentBubble.KeyToPress);
 					_correctKeyPressed = true;
+					PlayPopSound();
 				}
 			}
 		}
@@ -126,8 +133,23 @@ public class BubbleManager : MonoBehaviour
 		{
 			_doOnce = false;
 			OnPressFailed();
+			PlayPopSound();
 		}
 
+	}
+
+	private void PlayPopSound()
+	{
+		var randomVolume = Random.Range(_volumeRange.x, _volumeRange.y);
+		var randomPitch = Random.Range(_pitchRange.x, _pitchRange.y);
+
+		var randomClip = _bubblePops[Random.Range(0, _bubblePops.Length)];
+		
+		_audioSource.clip = randomClip;
+		_audioSource.volume = randomVolume;
+		_audioSource.pitch = randomPitch;
+
+		_audioSource.Play();
 	}
 	#endregion
 

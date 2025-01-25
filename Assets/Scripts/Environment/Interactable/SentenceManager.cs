@@ -1,12 +1,9 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class SentenceManager : MonoBehaviour
 {
@@ -50,18 +47,25 @@ public class SentenceManager : MonoBehaviour
 		_bubbleManager.PressFailed += OnKeyFailed;
 
 		_speechBubblePivot.DOScale(0, 0);
-		GetCurrentSentencePart();
+
+		GameManager.Instance.GameStarted += StartSentence;
 	}
+
 	private void OnDisable()
 	{
 		_bubbleManager.PressSuccess -= OnKeySuccess;
 		_bubbleManager.PressFailed -= OnKeyFailed;
 
 		_guessedCharacters.Clear();
+		GameManager.Instance.GameStarted -= StartSentence;
 	}
 	#endregion
 
 	#region Methods
+	private void StartSentence(object sender, EventArgs e)
+	{
+		GetCurrentSentencePart();
+	}
 	private void OnKeyFailed(object sender, EventArgs e)
 	{
 		// always clear the bubbles on a wrong input
@@ -70,8 +74,8 @@ public class SentenceManager : MonoBehaviour
 		_bubbleManager.DetectInput = false;
 
 		_speechBubbleImage.color = Color.red;
-		_speechBubbleImage.transform.DOShakePosition(_shakeDuration, strength: 10, vibrato: 20, randomness: 100, fadeOut: false).OnComplete(() => 
-		{ 
+		_speechBubbleImage.transform.DOShakePosition(_shakeDuration, strength: 10, vibrato: 20, randomness: 100, fadeOut: false).OnComplete(() =>
+		{
 			_speechBubbleImage.color = Color.white;
 
 			_bubbleManager.CanSpawn = true;
@@ -85,10 +89,19 @@ public class SentenceManager : MonoBehaviour
 			}
 
 			_guessedCharacters.Clear();
-			// get a new sentence part
-			GetCurrentSentencePart();
 
 			GameManager.Instance.LoseLife();
+
+			if (GameManager.Instance.CurrentHealth <= 0)
+			{
+				_speechBubblePivot.DOScale(0, _speechBubbleGrowTime)
+					.OnComplete(GameManager.Instance.WinGame)
+					.SetEase(Ease.OutQuad);
+				return;
+			}
+
+			// get a new sentence part
+			GetCurrentSentencePart();
 		});
 	}
 
@@ -109,7 +122,7 @@ public class SentenceManager : MonoBehaviour
 
 	private void CheckSentenceComplete()
 	{
-		foreach(char needed in _neededCharacters)
+		foreach (char needed in _neededCharacters)
 		{
 			// if character is not guessed then return and stop doing checks
 			if (!_guessedCharacters.Contains(needed))
@@ -124,7 +137,7 @@ public class SentenceManager : MonoBehaviour
 		_bubbleManager.DetectInput = false;
 
 		// 3 sentences have been solved
-		if(_currentSentencePart > 3)
+		if (_currentSentencePart > 3)
 		{
 			DOVirtual.DelayedCall(_timeBeforeReshuffle, () =>
 			{
@@ -154,7 +167,7 @@ public class SentenceManager : MonoBehaviour
 			case 2:
 				GetSentenceMiddle();
 				break;
-			case 3: 
+			case 3:
 				GetSentenceEnding();
 				break;
 		}
@@ -175,9 +188,9 @@ public class SentenceManager : MonoBehaviour
 		// grow the speech bubble
 		// then type the new empty text
 		_speechBubblePivot.DOScale(1, _speechBubbleGrowTime)
-			.OnComplete(() => TypeEmptyText(() => 
-			{ 
-				_bubbleManager.CanSpawn = true; 
+			.OnComplete(() => TypeEmptyText(() =>
+			{
+				_bubbleManager.CanSpawn = true;
 				_bubbleManager.DetectInput = true;
 			}))
 			.SetEase(Ease.OutBack);
@@ -255,7 +268,7 @@ public class SentenceManager : MonoBehaviour
 		_textDisplay.maxVisibleCharacters = value;
 	}
 
-		private static bool IsCharacterAllowed(char c)
+	private static bool IsCharacterAllowed(char c)
 	{
 		return c == ' ' || c == '\n' || c == '.' || c == ',';
 	}

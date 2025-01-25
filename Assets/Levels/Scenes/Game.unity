@@ -292,7 +292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2576436408695043288, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
       propertyPath: _emptyChance
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5777309796436214189, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
       propertyPath: m_AnchorMax.y
