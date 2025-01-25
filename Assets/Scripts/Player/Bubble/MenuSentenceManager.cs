@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MenuSentenceManager : MonoBehaviour
 {
@@ -85,19 +86,15 @@ public class MenuSentenceManager : MonoBehaviour
             }
         }
 
-        // sentence is complete so proceed to the next sentence
-        ++_currentSentencePart;
-
-        // 3 sentences have been solved
-        if (_currentSentencePart > 3)
-        {
-            GameManager.Instance.WinGame();
-            _textDisplay.gameObject.SetActive(false);
-            return;
-        }
-
-        DOVirtual.DelayedCall(_timeBeforeReshuffle, GetCurrentSentencePart);
+        Invoke("ChangeScene",3);
     }
+
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene(1);
+    }
+
 
     private void GetCurrentSentencePart()
     {
