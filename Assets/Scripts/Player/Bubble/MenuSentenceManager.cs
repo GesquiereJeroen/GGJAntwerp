@@ -51,12 +51,12 @@ public class MenuSentenceManager : MonoBehaviour
     #region Methods
     private void OnKeyFailed(object sender, EventArgs e)
     {
-        _guessedCharacters.Clear();
-        GetCurrentSentencePart();
+        //_guessedCharacters.Clear();
+        //GetCurrentSentencePart();
 
-        _bubbleManager.ClearBubbles(this, EventArgs.Empty);
+        //_bubbleManager.ClearBubbles(this, EventArgs.Empty);
 
-        GameManager.Instance.LoseLife();
+        //GameManager.Instance.LoseLife();
     }
 
     private void OnKeySuccess(object sender, string e)
