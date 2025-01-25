@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class SentenceManager : MonoBehaviour
 	[SerializeField] private SentenceData _sentenceData;
 	[SerializeField] private TextMeshProUGUI _textDisplay;
 	[SerializeField] private BubbleManager _bubbleManager;
+
+	[SerializeField] private float _timeBeforeReshuffle = 2f;
 	#endregion
 
 	#region Fields
@@ -52,7 +55,6 @@ public class SentenceManager : MonoBehaviour
 		GetCurrentSentencePart();
 
 		_bubbleManager.ClearBubbles(this, EventArgs.Empty);
-		_bubbleManager.GenerateBubbles(GuessSentence);
 
 		GameManager.Instance.LoseLife();
 	}
@@ -90,9 +92,10 @@ public class SentenceManager : MonoBehaviour
 		if(_currentSentencePart > 3)
 		{
 			GameManager.Instance.WinGame();
+			return;
 		}
 
-		GetCurrentSentencePart();
+		DOVirtual.DelayedCall(_timeBeforeReshuffle, GetCurrentSentencePart);
 	}
 
 	private void GetCurrentSentencePart()
@@ -133,24 +136,21 @@ public class SentenceManager : MonoBehaviour
 	public string GetSentenceBeginning()
 	{
 		_guessSentence = _sentenceData.GetRandomBeginning();
+		GameManager.Instance.BeginningText = _guessSentence;
 
 		return _guessSentence;
 	}
 	public string GetSentenceMiddle()
 	{
 		_guessSentence = _sentenceData.GetRandomMiddle();
+		GameManager.Instance.MiddleText = _guessSentence;
 
 		return _guessSentence;
 	}
 	public string GetSentenceEnding()
 	{
 		_guessSentence = _sentenceData.GetRandomEnding();
-
-		return _guessSentence;
-	}
-	public string GetSentenceConclusion()
-	{
-		_guessSentence = _sentenceData.GetRandomConclusion();
+		GameManager.Instance.EndingText = _guessSentence;
 
 		return _guessSentence;
 	}
