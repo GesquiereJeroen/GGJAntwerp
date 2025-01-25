@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6ed184b5f377b4a889609a74957604, type: 3}
+  m_Name: SentenceData
+  m_EditorClassIdentifier: 
+  _beginning:
+  - When cleaning the bathroom
+  _middle:
+  - my intrusive thoughts took over
+  _ending:
+  - now I tast regret
+  _conclusion: []

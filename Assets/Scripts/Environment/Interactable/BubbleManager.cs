@@ -7,7 +7,6 @@ public class BubbleManager : MonoBehaviour
 {
 	#region Editor Fields
 	[SerializeField] private Bubble _bubblePrefab;
-	[SerializeField] private string _test = "this is a test string";
 	#endregion
 
 	#region Fields
@@ -16,6 +15,26 @@ public class BubbleManager : MonoBehaviour
 
 	private bool _correctKeyPressed;
 	private bool _doOnce = true;
+
+	private List<KeyCode> _alwaysLegalCodes = new List<KeyCode>()
+	{
+		KeyCode.Space,
+		KeyCode.LeftAlt,
+		KeyCode.RightAlt,
+		KeyCode.Mouse0,
+		KeyCode.Mouse1,
+		KeyCode.Mouse2,
+		KeyCode.Mouse3,
+		KeyCode.Mouse4,
+		KeyCode.LeftControl,
+		KeyCode.RightControl,
+		KeyCode.LeftShift,
+		KeyCode.RightShift,
+		KeyCode.CapsLock,
+		KeyCode.Escape,
+		KeyCode.Tab,
+
+	};
 	#endregion
 
 	#region Properties
@@ -23,25 +42,11 @@ public class BubbleManager : MonoBehaviour
 	#endregion
 
 	#region Events
+	public event EventHandler<string> PressSuccess;
+	public event EventHandler PressFailed;
 	#endregion
 
 	#region Mono
-	private void Awake()
-	{
-		foreach (char c in _test)
-		{
-			var bubble = Instantiate(_bubblePrefab);
-			bubble.KeyToPress = GetKeyCode(c);
-			bubble.BubbleManager = this;
-
-			bubble.transform.position = Random.insideUnitCircle * 5;
-			_bubbles.Add(bubble);
-
-			bubble.Destroyed += OnBubbleDestroyed;
-		}
-	}
-
-
 	private void Update()
 	{
 		_correctKeyPressed = false;
@@ -53,6 +58,12 @@ public class BubbleManager : MonoBehaviour
 		// if no input then don't check for the specific keys
 		if (!Input.anyKeyDown) return;
 
+		foreach (KeyCode key in _alwaysLegalCodes)
+		{
+			if (Input.GetKeyDown(key))
+				return;
+		}
+
 		// go over all the bubbles to see if the any of the correct keys have been pressed
 		foreach (var bubble in _bubbles)
 		{
@@ -63,7 +74,7 @@ public class BubbleManager : MonoBehaviour
 				if (!_correctKeyPressed)
 				{
 					// only execute this once
-					Debug.Log($"the key {bubble.KeyToPress} was pressed");
+					OnPressSuccess(bubble.KeyToPress);
 					_correctKeyPressed = true;
 				}
 			}
@@ -75,13 +86,30 @@ public class BubbleManager : MonoBehaviour
 		if (_doOnce)
 		{
 			_doOnce = false;
-			Debug.LogError("WRONG KEY PRESSED");
+			OnPressFailed();
 		}
 
 	}
 	#endregion
 
 	#region Methods
+	public void GenerateBubbles(string guessSentence)
+	{
+		foreach (char c in guessSentence)
+		{
+			if (c == ' ') continue;
+
+			var bubble = Instantiate(_bubblePrefab);
+			bubble.KeyToPress = GetKeyCode(c);
+			bubble.BubbleManager = this;
+
+			bubble.Destroyed += OnBubbleDestroyed;
+
+			bubble.transform.position = Random.insideUnitCircle * 5;
+
+			_bubbles.Add(bubble);
+		}
+	}
 
 	private KeyCode GetKeyCode(char character)
 	{
@@ -103,8 +131,26 @@ public class BubbleManager : MonoBehaviour
 		_bubbles.Remove(bubble);
 		bubble.Destroyed -= OnBubbleDestroyed;
 	}
+	public void ClearBubbles(object sender, EventArgs e)
+	{
+		for (int i = _bubbles.Count - 1; i >= 0; i--)
+		{
+			Destroy(_bubbles[i].gameObject);
+		}
+	}
+
 	#endregion
 
 	#region EventHandlers
+	private void OnPressFailed()
+	{
+		var handler = PressFailed;
+		handler?.Invoke(this, EventArgs.Empty);
+	}
+	private void OnPressSuccess(KeyCode key)
+	{
+		var handler = PressSuccess;
+		handler?.Invoke(this, key.ToString().ToLower());
+	}
 	#endregion
 }
