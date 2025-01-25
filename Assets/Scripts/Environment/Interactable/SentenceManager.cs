@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SentenceManager : MonoBehaviour
 {
@@ -13,6 +16,13 @@ public class SentenceManager : MonoBehaviour
 	[SerializeField] private BubbleManager _bubbleManager;
 
 	[SerializeField] private float _timeBeforeReshuffle = 2f;
+	[SerializeField] private float _typeTimeBetweenCharacters = 0.1f;
+
+	[SerializeField] private RectTransform _speechBubblePivot;
+	[SerializeField] private float _speechBubbleGrowTime;
+
+	[SerializeField] private Image _speechBubbleImage;
+	[SerializeField] private float _shakeDuration;
 	#endregion
 
 	#region Fields
@@ -22,6 +32,8 @@ public class SentenceManager : MonoBehaviour
 	private List<char> _guessedCharacters = new List<char>();
 
 	private int _currentSentencePart = 1;
+
+	private bool _hasMadeError = false;
 	#endregion
 
 	#region Properties
@@ -37,6 +49,7 @@ public class SentenceManager : MonoBehaviour
 		_bubbleManager.PressSuccess += OnKeySuccess;
 		_bubbleManager.PressFailed += OnKeyFailed;
 
+		_speechBubblePivot.DOScale(0, 0);
 		GetCurrentSentencePart();
 	}
 	private void OnDisable()
@@ -51,12 +64,32 @@ public class SentenceManager : MonoBehaviour
 	#region Methods
 	private void OnKeyFailed(object sender, EventArgs e)
 	{
-		_guessedCharacters.Clear();
-		GetCurrentSentencePart();
-
+		// always clear the bubbles on a wrong input
 		_bubbleManager.ClearBubbles(this, EventArgs.Empty);
+		_bubbleManager.CanSpawn = false;
+		_bubbleManager.DetectInput = false;
 
-		GameManager.Instance.LoseLife();
+		_speechBubbleImage.color = Color.red;
+		_speechBubbleImage.transform.DOShakePosition(_shakeDuration, strength: 10, vibrato: 20, randomness: 100, fadeOut: false).OnComplete(() => 
+		{ 
+			_speechBubbleImage.color = Color.white;
+
+			_bubbleManager.CanSpawn = true;
+			_bubbleManager.DetectInput = true;
+
+			// give the player 1 extra chance
+			if (!_hasMadeError)
+			{
+				_hasMadeError = true;
+				return;
+			}
+
+			_guessedCharacters.Clear();
+			// get a new sentence part
+			GetCurrentSentencePart();
+
+			GameManager.Instance.LoseLife();
+		});
 	}
 
 	private void OnKeySuccess(object sender, string e)
@@ -88,15 +121,27 @@ public class SentenceManager : MonoBehaviour
 		// sentence is complete so proceed to the next sentence
 		++_currentSentencePart;
 
+		_bubbleManager.DetectInput = false;
+
 		// 3 sentences have been solved
 		if(_currentSentencePart > 3)
 		{
-			GameManager.Instance.WinGame();
-			_textDisplay.gameObject.SetActive(false);
+			DOVirtual.DelayedCall(_timeBeforeReshuffle, () =>
+			{
+				_speechBubblePivot.DOScale(0, _speechBubbleGrowTime)
+					.OnComplete(GameManager.Instance.WinGame)
+					.SetEase(Ease.OutQuad);
+			});
+
 			return;
 		}
 
-		DOVirtual.DelayedCall(_timeBeforeReshuffle, GetCurrentSentencePart);
+		DOVirtual.DelayedCall(_timeBeforeReshuffle, () =>
+		{
+			_speechBubblePivot.DOScale(0, _speechBubbleGrowTime)
+				.OnComplete(GetCurrentSentencePart)
+				.SetEase(Ease.OutQuad);
+		});
 	}
 
 	private void GetCurrentSentencePart()
@@ -116,9 +161,27 @@ public class SentenceManager : MonoBehaviour
 
 		_guessSentence = _guessSentence.ToUpper();
 
+		_hasMadeError = false;
+
 		_guessedCharacters.Clear();
 		_neededCharacters.Clear();
+		_bubbleManager.NeededCharacters.Clear();
 		UpdateText();
+
+		_bubbleManager.CanSpawn = false;
+
+		_textDisplay.maxVisibleCharacters = 0;
+
+		// grow the speech bubble
+		// then type the new empty text
+		_speechBubblePivot.DOScale(1, _speechBubbleGrowTime)
+			.OnComplete(() => TypeEmptyText(() => 
+			{ 
+				_bubbleManager.CanSpawn = true; 
+				_bubbleManager.DetectInput = true;
+			}))
+			.SetEase(Ease.OutBack);
+
 		GetNeededCharacters();
 	}
 
@@ -165,7 +228,7 @@ public class SentenceManager : MonoBehaviour
 		{
 			if (IsCharacterAllowed(c) || _guessedCharacters.Contains(c))
 			{
-				updated += c;
+				updated += c.ToString().ToUpper();
 				continue;
 			}
 
@@ -175,7 +238,24 @@ public class SentenceManager : MonoBehaviour
 		_textDisplay.text = updated;
 	}
 
-	private static bool IsCharacterAllowed(char c)
+	private void TypeEmptyText(Action onComplete = null)
+	{
+		// get the amount of character that we have loop over
+		int charAmount = _textDisplay.text.Length;
+
+		// tween to start the characters
+		DOVirtual.Int(0, charAmount, charAmount * _typeTimeBetweenCharacters, AddLetterToText)
+			.OnComplete(() => onComplete?.Invoke())
+			.SetEase(Ease.Linear)
+			.SetId(transform);
+	}
+	private void AddLetterToText(int value)
+	{
+		// set the max visible characters to current tween value
+		_textDisplay.maxVisibleCharacters = value;
+	}
+
+		private static bool IsCharacterAllowed(char c)
 	{
 		return c == ' ' || c == '\n' || c == '.' || c == ',';
 	}

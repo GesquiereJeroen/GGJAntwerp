@@ -48,6 +48,8 @@ public class BubbleManager : MonoBehaviour
 
 	#region Properties
 	public List<char> NeededCharacters => _neededCaharacters;
+	public bool CanSpawn;
+	public bool DetectInput = true;
 	#endregion
 
 	#region Events
@@ -71,7 +73,8 @@ public class BubbleManager : MonoBehaviour
 	}
 	private void FixedUpdate()
 	{
-		if (_gameEnded) return;
+		if (_gameEnded || !CanSpawn) return;
+
 		_timer += Time.deltaTime;
 		if(_timer >= _currentInterval)
 		{
@@ -84,6 +87,8 @@ public class BubbleManager : MonoBehaviour
 	{
 		_correctKeyPressed = false;
 		_doOnce = true;
+
+		if (!DetectInput) return;
 
 		// don't check for input of there are no bubbles
 		if (_bubbles.Count <= 0) return;
