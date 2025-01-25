@@ -92,6 +92,7 @@ public class SentenceManager : MonoBehaviour
 		if(_currentSentencePart > 3)
 		{
 			GameManager.Instance.WinGame();
+			_textDisplay.gameObject.SetActive(false);
 			return;
 		}
 
@@ -112,6 +113,8 @@ public class SentenceManager : MonoBehaviour
 				GetSentenceEnding();
 				break;
 		}
+
+		_guessSentence = _guessSentence.ToUpper();
 
 		_guessedCharacters.Clear();
 		_neededCharacters.Clear();

@@ -1,6 +1,8 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHeadShake : MonoBehaviour
@@ -12,9 +14,25 @@ public class PlayerHeadShake : MonoBehaviour
     void Start()
     {
         StartJitteryShake();
+
+		GameManager.Instance.GameEnded += EndGameShake;
     }
 
-    public void StartJitteryShake()
+	private void EndGameShake(object sender, bool e)
+	{
+			StopJitteryShake();
+		if (!e)
+		{
+			// Stop any existing shake
+			StopJitteryShake();
+
+			// Set up a continuous jitter effect
+			jitterTween = transform.DOShakePosition(duration, shakeRadius *2, vibrato: 30, randomness: 100, fadeOut: false)
+				.SetLoops(-1, LoopType.Restart); // Infinite loop
+		}
+	}
+
+	public void StartJitteryShake()
     {
         // Stop any existing shake
         StopJitteryShake();
@@ -30,7 +48,7 @@ public class PlayerHeadShake : MonoBehaviour
         {
             jitterTween.Kill(); // Stop the shake
             jitterTween = null;
-            transform.localPosition = Vector3.zero; // Reset position
+            //transform.localPosition = Vector3.zero; // Reset position
         }
     }
 }

@@ -28,6 +28,7 @@ public class VertexWobble : MonoBehaviour
 
             int index = c.vertexIndex;
 
+			index %= vertices.Length;
 
             Vector3 offset = Wobble(Time.time+i);
 

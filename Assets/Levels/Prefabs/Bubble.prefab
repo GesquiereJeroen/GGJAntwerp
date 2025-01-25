@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4267458220058590000}
   - component: {fileID: 7241330525568017507}
   - component: {fileID: 805519807191937884}
+  - component: {fileID: 6715279951039489349}
   m_Layer: 0
   m_Name: Bubble
   m_TagString: Untagged
@@ -60,8 +61,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fcf54a59bb253849bd52c6377ee3fdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particlePrefab: {fileID: 1602166515337000328, guid: 1839193c19b4b9641b001dc4fe1064b4, type: 3}
   floatHeightRangeScale: {x: -0.5, y: 0.5}
   floatSpeedRangeScale: {x: 0.5, y: 1.5}
+--- !u!114 &6715279951039489349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857616375125089783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48be58f7d3937584cbd5fac1125be933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _growTime: 0.5
 --- !u!1 &6993331652801938487
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +151,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: af5fdd39c15c3364b995448dc339ac35, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5372549}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -220,8 +235,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278716424
-  m_fontColor: {r: 0.031446517, g: 0.031446517, b: 0.031446517, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
