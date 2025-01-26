@@ -28,6 +28,8 @@ public class SentenceManager : MonoBehaviour
 	[SerializeField] private AudioClip[] _correctClips;
 	[SerializeField] private AudioClip[] _wrongClips;
 
+	[SerializeField] private AudioSource _gurgleSource;
+
 	#endregion
 
 	#region Fields
@@ -209,14 +211,21 @@ public class SentenceManager : MonoBehaviour
 
 		_textDisplay.maxVisibleCharacters = 0;
 
+
 		// grow the speech bubble
 		// then type the new empty text
 		_speechBubblePivot.DOScale(1, _speechBubbleGrowTime)
-			.OnComplete(() => TypeEmptyText(() =>
+			.OnComplete(() => 
 			{
-				_bubbleManager.CanSpawn = true;
-				_bubbleManager.DetectInput = true;
-			}))
+				_gurgleSource.Play();
+				_gurgleSource.DOFade(0.4f, 0.1f);
+				TypeEmptyText(() =>
+				{
+					_bubbleManager.CanSpawn = true;
+					_bubbleManager.DetectInput = true;
+					_gurgleSource.DOFade(0, 0.3f).OnComplete(_gurgleSource.Stop);
+				});
+			})
 			.SetEase(Ease.OutBack);
 
 		GetNeededCharacters();

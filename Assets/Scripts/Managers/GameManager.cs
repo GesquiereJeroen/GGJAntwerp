@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		OnGameStarted();
+		DOVirtual.DelayedCall(1, OnGameStarted);
 
         VisualEffectBubble1.SetFloat("Min", 1.53f);
         VisualEffectBubble1.SetFloat("Max", 2.04f);
