@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SentenceManager : MonoBehaviour
 {
@@ -20,6 +21,13 @@ public class SentenceManager : MonoBehaviour
 
 	[SerializeField] private Image _speechBubbleImage;
 	[SerializeField] private float _shakeDuration;
+
+	[Header("Sound")]
+	[SerializeField] private AudioSource _source;
+	[SerializeField] private AudioClip[] _typingClips;
+	[SerializeField] private AudioClip[] _correctClips;
+	[SerializeField] private AudioClip[] _wrongClips;
+
 	#endregion
 
 	#region Fields
@@ -74,6 +82,9 @@ public class SentenceManager : MonoBehaviour
 		_bubbleManager.DetectInput = false;
 
 		_speechBubbleImage.color = Color.red;
+
+		PlayWrongClip();
+
 		_speechBubbleImage.transform.DOShakePosition(_shakeDuration, strength: 10, vibrato: 20, randomness: 100, fadeOut: false).OnComplete(() =>
 		{
 			_speechBubbleImage.color = Color.white;
@@ -102,6 +113,12 @@ public class SentenceManager : MonoBehaviour
 			// get a new sentence part
 			GetCurrentSentencePart();
 		});
+	}
+
+	private void PlayWrongClip()
+	{
+		_source.clip = _wrongClips[Random.Range(0, _wrongClips.Length)];
+		_source.Play();
 	}
 
 	private void OnKeySuccess(object sender, string e)
@@ -135,6 +152,8 @@ public class SentenceManager : MonoBehaviour
 
 		_bubbleManager.DetectInput = false;
 
+		PlayCorrectSound();
+
 		// 3 sentences have been solved
 		if (_currentSentencePart > 3)
 		{
@@ -154,6 +173,12 @@ public class SentenceManager : MonoBehaviour
 				.OnComplete(GetCurrentSentencePart)
 				.SetEase(Ease.OutQuad);
 		});
+	}
+
+	private void PlayCorrectSound()
+	{
+		_source.clip = _correctClips[Random.Range(0, _correctClips.Length)];
+		_source.Play();
 	}
 
 	private void GetCurrentSentencePart()
@@ -265,6 +290,13 @@ public class SentenceManager : MonoBehaviour
 	{
 		// set the max visible characters to current tween value
 		_textDisplay.maxVisibleCharacters = value;
+		PlayTypeSound();
+	}
+
+	private void PlayTypeSound()
+	{
+		_source.clip = _typingClips[Random.Range(0, _typingClips.Length)];
+		_source.Play();
 	}
 
 	private static bool IsCharacterAllowed(char c)
