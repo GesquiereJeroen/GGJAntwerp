@@ -14,24 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _beginning:
   - When cleaning the bathroom
-  - my intrusive thoughts took over
+  - My intrusive thoughts took over
   - In the middle of a very boring shower
-  - The Soap smelled so much like dessert
+  - I wasn't paying attention
   - During a midnight snack
   - While brushing my teeth
-  - While playing Pokemon
+  - I got hungry
   _middle:
   - I gave in to curiosity
   - I gave it a little lick
   - i chomped on it like it was a chocolate bar
-  - I gave it a full kiss with my tongue
+  - I gave it a full kiss
   - It smelled like vanilla
-  - I thought it was Rare Candy
+  - I thought it was candy
+  - The soap smelled so much like dessert
   _ending:
   - now I taste regret
   - now i burp bubbles
   - my breath smells like lavender
-  - i have never felt so clean on the inside
+  - I have never felt so clean on the inside
   - My dreams tasted clean
   - I laughed bubbles instead of words
+  - I learned nothing and would do it again
+  - and I think I unlocked a secret menu at Lush
   _conclusion: []
