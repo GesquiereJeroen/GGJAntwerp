@@ -3,7 +3,10 @@ using DG.Tweening;
 
 public class MainMenuBubble : MonoBehaviour
 {
-    [Header("Movement Settings")]
+
+	[SerializeField] private GameObject _popEffect;
+
+	[Header("Movement Settings")]
     public float floatRange = 1f; // Maximum distance the bubble can float in any direction
     public float duration = 2f;  // Time it takes to complete one movement cycle
     public Vector3 basePosition; // Starting position of the bubble
@@ -44,4 +47,9 @@ public class MainMenuBubble : MonoBehaviour
                  .SetEase(Ease.InOutSine)
                  .OnComplete(StartScaling); // Loop scaling
     }
+
+	private void OnDestroy()
+	{
+		Instantiate(_popEffect, transform.position, Quaternion.identity);
+	}
 }

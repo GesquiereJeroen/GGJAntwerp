@@ -95,7 +95,6 @@ public class SentenceManager : MonoBehaviour
 			if (GameManager.Instance.CurrentHealth <= 0)
 			{
 				_speechBubblePivot.DOScale(0, _speechBubbleGrowTime)
-					.OnComplete(GameManager.Instance.WinGame)
 					.SetEase(Ease.OutQuad);
 				return;
 			}

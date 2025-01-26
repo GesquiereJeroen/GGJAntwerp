@@ -38,6 +38,8 @@ public class MenuSentenceManager : MonoBehaviour
         _bubbleManager.PressSuccess += OnKeySuccess;
         _bubbleManager.PressFailed += OnKeyFailed;
 
+		transsitionAnimaiton.SetActive(false);
+
         GetCurrentSentencePart();
     }
     private void OnDisable()

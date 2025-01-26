@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] private TextMeshProUGUI _returnInstruction;
 
+	[SerializeField] private GameObject _exitBubbleTransition;
+
 	[Header("Narrator")]
 	[SerializeField] private AudioSource _narratorAudioSource;
 	[SerializeField] private AudioClip _narratorBegin;
@@ -70,6 +72,7 @@ public class GameManager : MonoBehaviour
 		_returnInstruction.maxVisibleCharacters = 0;
 		_returnInstruction.gameObject.SetActive(false);
 
+		_exitBubbleTransition.gameObject.SetActive(false);
 
 		foreach (var healthPoint in _healthPoints)
 		{
@@ -93,9 +96,15 @@ public class GameManager : MonoBehaviour
 
 		if(Input.GetKeyDown(KeyCode.Space)) 
 		{
+			_exitBubbleTransition.SetActive(true);
 			// load the main menu;
-			SceneManager.LoadScene(0);
+			DOVirtual.DelayedCall(1, LoadMenu);
 		}
+	}
+
+	private void LoadMenu()
+	{
+		SceneManager.LoadScene(0);
 	}
 	#endregion
 
