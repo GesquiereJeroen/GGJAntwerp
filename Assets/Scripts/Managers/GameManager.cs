@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,10 +37,14 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private AudioClip _narratorBegin;
 	[SerializeField] private AudioClip _narratorWin;
 	[SerializeField] private AudioClip _narratorLose;
-	#endregion
 
-	#region Fields
-	private int _currentHealth;
+	[Header("VFX")]
+	[SerializeField] VisualEffect VisualEffectBubble1;
+    [SerializeField] VisualEffect VisualEffectBubble2;
+    #endregion
+
+    #region Fields
+    private int _currentHealth;
 
 	private bool _canReturnToMenu = false;
 	#endregion
@@ -87,7 +92,10 @@ public class GameManager : MonoBehaviour
 	{
 		PlayClip(_narratorBegin);
 		DOVirtual.DelayedCall(_narratorBegin.length, OnGameStarted);
-	}
+
+        VisualEffectBubble1.SetFloat("Min", 1.53f);
+        VisualEffectBubble1.SetFloat("Max", 2.04f);
+    }
 
 
 	private void Update()
@@ -159,15 +167,28 @@ public class GameManager : MonoBehaviour
 
 	private void LoseGame()
 	{
-		OnGameEnded(false);
+		VisualEffectBubble1.SetFloat("Min",8f);
+        VisualEffectBubble1.SetFloat("Max", 15f);
+        VisualEffectBubble1.SetFloat("Rate", 30f);
+        VisualEffectBubble2.SetFloat("Min", 8f);
+        VisualEffectBubble2.SetFloat("Max", 15f);
+        VisualEffectBubble2.SetFloat("Rate", 40f);
+	
+        OnGameEnded(false);
 		
 	}
 
 	public void WinGame()
 	{
-		OnGameEnded(true);
 
-		_winSpeechBubbleText.text = $"{BeginningText} {MiddleText} {EndingText}".ToUpper();
+        VisualEffectBubble1.SetFloat("Rate", 0f);
+        VisualEffectBubble2.SetFloat("Rate", 0f);
+        OnGameEnded(true);
+
+
+       
+
+        _winSpeechBubbleText.text = $"{BeginningText} {MiddleText} {EndingText}".ToUpper();
 		_winSpeechbubble.gameObject.SetActive(true);
 
 		_winSpeechbubble.DOScale(1, _scaleTime)
