@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 	[Header("Health")]
 	[SerializeField] private int _startHealth;
 	[SerializeField] private GameObject[] _healthPoints;
+	[SerializeField] private GameObject _popEffect;
 
 	[Header("Text Displays")]
 	[SerializeField] private float _typeTimeBetweenCharacters = 0.05f;
@@ -90,12 +91,14 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		PlayClip(_narratorBegin);
-		DOVirtual.DelayedCall(_narratorBegin.length, OnGameStarted);
+		OnGameStarted();
 
         VisualEffectBubble1.SetFloat("Min", 1.53f);
         VisualEffectBubble1.SetFloat("Max", 2.04f);
-    }
+
+		VisualEffectBubble1.transform.parent = null;
+		VisualEffectBubble2.transform.parent = null;
+	}
 
 
 	private void Update()
@@ -163,6 +166,13 @@ public class GameManager : MonoBehaviour
 	private void UpdateHealth()
 	{
 		_healthPoints[_currentHealth].SetActive(false);
+
+		var worldPos = Camera.main.ScreenToWorldPoint(_healthPoints[_currentHealth].transform.position);
+
+		worldPos.z = 0;
+
+		Instantiate(_popEffect, worldPos, Quaternion.identity);
+
 	}
 
 	private void LoseGame()
@@ -180,13 +190,9 @@ public class GameManager : MonoBehaviour
 
 	public void WinGame()
 	{
-
         VisualEffectBubble1.SetFloat("Rate", 0f);
         VisualEffectBubble2.SetFloat("Rate", 0f);
         OnGameEnded(true);
-
-
-       
 
         _winSpeechBubbleText.text = $"{BeginningText} {MiddleText} {EndingText}".ToUpper();
 		_winSpeechbubble.gameObject.SetActive(true);

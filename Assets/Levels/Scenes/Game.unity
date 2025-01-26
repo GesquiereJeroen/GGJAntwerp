@@ -1585,6 +1585,10 @@ PrefabInstance:
       propertyPath: _exitBubbleTransition
       value: 
       objectReference: {fileID: 491872234}
+    - target: {fileID: 815071393851942644, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
+      propertyPath: _loseMessages.Array.data[0]
+      value: BLGHRLBLGHEBLGBUB
+      objectReference: {fileID: 0}
     - target: {fileID: 2576436408695043288, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
       propertyPath: _emptyChance
       value: 0.4

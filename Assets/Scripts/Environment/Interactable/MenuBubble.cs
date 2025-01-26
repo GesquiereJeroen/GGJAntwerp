@@ -87,7 +87,6 @@ public class MenuBubble : MonoBehaviour
 		//    _currentInterval = UnityEngine.Random.Range(_spawnInterval.x, _spawnInterval.y);
 		//    _timer = 0;
 		//}
-		Debug.Log(_neededCaharacters.Count);
 		for (int i = 0; i < _neededCaharacters.Count; i++)
 		{
 

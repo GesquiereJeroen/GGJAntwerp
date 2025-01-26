@@ -3919,6 +3919,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1527703488}
+  - component: {fileID: 1527703490}
   - component: {fileID: 1527703489}
   m_Layer: 0
   m_Name: NarratorMenu
@@ -4038,6 +4039,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1527703490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527703487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de3f1e6e6d0a6964b85bfc51b44aee47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _randomInterval: {x: 5, y: 10}
+  _source: {fileID: 1527703489}
+  _beginning: {fileID: 8300000, guid: 921edd9dc83d98a438b3a73654b4abc4, type: 3}
+  _prompt: {fileID: 8300000, guid: ab55d1b61c42d384085c8ff179a34f83, type: 3}
 --- !u!1 &1547137469
 GameObject:
   m_ObjectHideFlags: 0

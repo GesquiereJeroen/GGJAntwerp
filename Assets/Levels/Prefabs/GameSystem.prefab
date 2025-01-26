@@ -1043,6 +1043,7 @@ MonoBehaviour:
   - {fileID: 4696919709625301756}
   - {fileID: 2891312611085898642}
   - {fileID: 9122896218477747516}
+  _popEffect: {fileID: 1602166515337000328, guid: 1839193c19b4b9641b001dc4fe1064b4, type: 3}
   _typeTimeBetweenCharacters: 0.02
   _winSpeechbubble: {fileID: 1923073943743846293}
   _winSpeechBubbleText: {fileID: 8103268780006592582}
@@ -1055,10 +1056,13 @@ MonoBehaviour:
   _loseMessages:
   - Bleep Bloop
   _returnInstruction: {fileID: 4631629009625569066}
+  _exitBubbleTransition: {fileID: 0}
   _narratorAudioSource: {fileID: 574931917846158679}
   _narratorBegin: {fileID: 8300000, guid: 921edd9dc83d98a438b3a73654b4abc4, type: 3}
   _narratorWin: {fileID: 8300000, guid: a55220836efd3f54c9ddb10424cfaafc, type: 3}
   _narratorLose: {fileID: 8300000, guid: e99eab1aa82ba7841b9bc9cdf0fa7b5b, type: 3}
+  VisualEffectBubble1: {fileID: 0}
+  VisualEffectBubble2: {fileID: 0}
 --- !u!82 &574931917846158679
 AudioSource:
   m_ObjectHideFlags: 0
