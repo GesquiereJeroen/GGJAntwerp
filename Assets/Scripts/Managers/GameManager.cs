@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private AudioClip _narratorLose;
 
 	[Header("VFX")]
-	[SerializeField] VisualEffect VisualEffectBubble1;
-    [SerializeField] VisualEffect VisualEffectBubble2;
+	[SerializeField] ParticleSystem VisualEffectBubble1;
+    [SerializeField] ParticleSystem VisualEffectBubble2;
     #endregion
 
     #region Fields
@@ -92,9 +92,6 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		DOVirtual.DelayedCall(1, OnGameStarted);
-
-        VisualEffectBubble1.SetFloat("Min", 1.53f);
-        VisualEffectBubble1.SetFloat("Max", 2.04f);
 
 		VisualEffectBubble1.transform.parent = null;
 		VisualEffectBubble2.transform.parent = null;
@@ -177,22 +174,34 @@ public class GameManager : MonoBehaviour
 
 	private void LoseGame()
 	{
-		VisualEffectBubble1.SetFloat("Min",8f);
-        VisualEffectBubble1.SetFloat("Max", 15f);
-        VisualEffectBubble1.SetFloat("Rate", 30f);
-        VisualEffectBubble2.SetFloat("Min", 8f);
-        VisualEffectBubble2.SetFloat("Max", 15f);
-        VisualEffectBubble2.SetFloat("Rate", 40f);
-	
+		var em1 = VisualEffectBubble1.emission;
+		em1.rateOverTime = 20;
+		var em2 = VisualEffectBubble2.emission;
+		em2.rateOverTime = 20;
+
+		var m1 = VisualEffectBubble1.main;
+		m1.startLifetime = 10;
+		var m2 = VisualEffectBubble2.main;
+		m2.startLifetime = 10;
+
+		var sol1 = VisualEffectBubble1.sizeOverLifetime;
+		sol1.enabled = false;
+		var sol2 = VisualEffectBubble2.sizeOverLifetime;
+		sol2.enabled = false;
+
         OnGameEnded(false);
 		
 	}
 
 	public void WinGame()
 	{
-        VisualEffectBubble1.SetFloat("Rate", 0f);
-        VisualEffectBubble2.SetFloat("Rate", 0f);
-        OnGameEnded(true);
+		var em1 = VisualEffectBubble1.emission;
+		em1.rateOverTime = 00;
+
+		var em2 = VisualEffectBubble2.emission;
+		em2.rateOverTime = 00;
+
+		OnGameEnded(true);
 
         _winSpeechBubbleText.text = $"{BeginningText} {MiddleText} {EndingText}".ToUpper();
 		_winSpeechbubble.gameObject.SetActive(true);

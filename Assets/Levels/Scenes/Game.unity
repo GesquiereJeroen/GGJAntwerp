@@ -714,6 +714,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!198 &467988486 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4404185951926215307, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+  m_PrefabInstance: {fileID: 693290327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &472588912
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,11 +957,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!2083052967 &691063864 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 8626086090834019836, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
-  m_PrefabInstance: {fileID: 693290327}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &693290327
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -977,6 +977,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 816910226296772984, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 1179257954748761234, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -985,9 +989,25 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4687037831529541528, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963559345669065272, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5771105387738080363, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7411347277970088440, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042491051956361578, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8354752731995297766, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
       propertyPath: m_PropertySheet.m_Float.m_Array.Array.size
@@ -1677,11 +1697,11 @@ PrefabInstance:
     - target: {fileID: 815071393851942644, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
       propertyPath: VisualEffectBubble1
       value: 
-      objectReference: {fileID: 1512828015}
+      objectReference: {fileID: 1198401387}
     - target: {fileID: 815071393851942644, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
       propertyPath: VisualEffectBubble2
       value: 
-      objectReference: {fileID: 691063864}
+      objectReference: {fileID: 467988486}
     - target: {fileID: 815071393851942644, guid: c5ffde2cad922264c9aa9b0acacd593f, type: 3}
       propertyPath: _exitBubbleTransition
       value: 
@@ -2181,6 +2201,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!198 &1198401387 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4574366941405524409, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
+  m_PrefabInstance: {fileID: 693290327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1314091220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2685,11 +2710,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!2083052967 &1512828015 stripped
-VisualEffect:
-  m_CorrespondingSourceObject: {fileID: 8354752731995297766, guid: 9d4bd86a554620c42a1529a861108fd9, type: 3}
-  m_PrefabInstance: {fileID: 693290327}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1517336125
 GameObject:
   m_ObjectHideFlags: 0

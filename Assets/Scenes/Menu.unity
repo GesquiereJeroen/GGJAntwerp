@@ -302,7 +302,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -107
   m_TargetDisplay: 0
 --- !u!224 &13417469
 RectTransform:
@@ -3745,6 +3745,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: main menu art
       objectReference: {fileID: 0}
+    - target: {fileID: 1449044714819462242, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034555738767640392, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126920417152707583, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 2809878226077157177, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.79
@@ -3819,15 +3831,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3732880989990234626, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
       propertyPath: m_SortingOrder
-      value: 16
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4203415221462377887, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4318354647119022376, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
       propertyPath: m_SortingOrder
-      value: 17
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6224460930522378664, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6330334084078148895, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
       propertyPath: m_SortingOrder
-      value: 20
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 6457838835444682977, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
       propertyPath: m_SortingOrder
@@ -3904,6 +3924,10 @@ PrefabInstance:
     - target: {fileID: 8635467114538570012, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
       propertyPath: m_SortingOrder
       value: 199
+      objectReference: {fileID: 0}
+    - target: {fileID: 8759590256149404898, guid: 8b3f46f7b41908b48a8ed69d3894b653, type: 3}
+      propertyPath: m_SortingOrder
+      value: -4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
